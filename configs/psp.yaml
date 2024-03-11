@@ -1,0 +1,76 @@
+exp:
+  config_dir: configs
+  config: base_config.yaml
+  exp_dir: experiments 
+  project: StyleGAN Encoders
+  name: StyleGAN Encoders
+  seed: 42069
+  root: .
+  notes: StyleGAN Encoders
+  logging: true
+  
+  
+inference:
+  inference_runner: psp_inference_runner
+  editing_attrs: {"curly_hair": [-15, -10, -5, -3, -2, -1],
+                  "black hair": [-15, -10, 10, 15],
+                  "smiling": [-8, -6, -4, 4, 6, 8],
+                  "gender": [-7, -5, -3, 3, 5, 7],
+                  "age": [1, -1]}
+  fid_eiditing_map: {Straight_Hair : ["curly_hair", [0, -0.03, -0.07, -0.085, -0.1, -0.12, -0.15]]}
+
+  
+model:
+  inverter: psp
+  device: '0'
+  batch_size: 8
+
+data:
+  transform: encoder
+  inference_dir: ../datasets/test_official 
+  input_train_dir: ../datasets/FFHQ
+  input_val_dir: ../datasets/test_official 
+
+encoder_losses:
+  lpips: 0.8
+  l2: 1.0
+  id: 0.1
+    
+
+train:
+    coach: psp
+    encoder_optimizer: ranger
+    log_step: 500
+    val_step: 15000
+    checkpoint_step: 15000
+    
+    
+optimizers:
+    ranger:
+      lr: 0.0001
+      
+
+# editings:
+#   #editings_data: {'black hair': [-5, -3, 0, 3, 5], 'smiling': [-4, -3, -2, 0, 2, 3, 4], 'glasses': [-12, -9, -7, -5, -3, 0, 5], 'gender': [-7, -5, -3, 0, 3, 5, 7]}#, "age": [-7, -5, -3, 0, 3, 5, 7]}
+#   editings_data: {"curly_hair": [0, -0.03, -0.07, -0.085, -0.1, -0.12, -0.15]}
+
+
+editings:
+  editings_data: {"age": [-11, -9, -7, -5, -3, 0, 3, 5, 7, 10, 14, 16],
+                  "rotation": [-8.0, -5.0, -3.0, 0, 3.0, 5.0, 8.0],
+                  "afro": [0, 0.085, 0.1, 0.12],
+                  "angry": [0, 0.12, 0.15, 0.18],
+                  "bobcut": [0, 0.08, 0.14, 0.20],
+                  "bowlcut": [0, 0.08, 0.14, 0.20],
+                  "purple_hair": [0, 0.07, 0.11, 0.14],
+                  "blond hair ": [-8, -6, -4, 0, 4, 6, 8],
+                  "pap_glasses": [-10, 0, 10, 15, 20],
+                  "pap_smiling": [-10, -7, -3, 0, 3, 7, 10],
+                  "pap_makeup": [-25, -20, -15, 0, 15, 20, 25],
+                  "gender": [-8, -6, -4, 0, 2, 5],
+                  "mohawk": [0, 0.07, 0.10, 0.12],
+                  "goatee": [-6, -4, -2, 0, 2, 4, 6],
+                  "eye_openness": [-30, -25, -20, -15, 0, 15, 20, 25, 30],
+                  }
+
+  
