@@ -1,0 +1,102 @@
+exp:
+  config_dir: configs
+  config: base_config.yaml
+  exp_dir: experiments 
+  project: StyleGAN Encoders
+  name: e4e inference masked
+  seed: 42069
+  root: .
+  notes: StyleGAN Encoders
+  logging: true
+
+data:
+  transform: encoder
+  inference_dir: ../datasets/test_official 
+  input_train_dir: ../datasets/FFHQ
+  input_val_dir: ../datasets/test_official
+
+inference:
+  inference_runner: e4e_inference_runner
+  fid_eiditing_map: {Straight_Hair : ['wavy hair', [-10, -7, -5, -3, -1, 0]]}
+
+
+model:
+  inverter: e4e
+  device: '0'
+  batch_size: 8
+
+
+train:
+    coach: psp
+    log_step: 1000
+    val_step: 5000
+    checkpoint_step: 5000
+    
+optimizers:
+    ranger:
+      lr: 0.0001
+
+
+# editings:
+#     editings_data: {"age": [-7, -5, -3, 3, 5, 7, 10],
+#                   "lipstick": [-9, -7, -5, 3],
+#                   "afro": [0.03, 0.07, 0.085, 0.1],
+#                   "angry": [0.07, 0.12, 0.18],
+#                   "purple_hair": [0.07, 0.12, 0.18],
+#                   "glasses": [-7, 5],
+#                   "face_roundness": [-17, -12, -8, 8, 12, 17], #"pap_smiling": [-10, -7, -3, 3, 7, 10], #"smile": [1.0, 3.0, 5.0],
+#                   "rotation": [-5.0, -3.0, -1.0, 1.0, 3.0, 5.0],
+#                   "bobcut": [0.07, 0.12, 0.18],
+#                   "bowlcut": [0.07, 0.14],
+#                   "mohawk": [0.07, 0.10],
+#                   "blond hair ": [-8, -4, 4, 8],
+#                   "smile": [-5.0, -3.0, -1.0, 1.0, 3.0, 5.0],
+#                   "pap_smiling": [-10, -7, -3, 3, 7, 10]}
+
+editings:
+  editings_data: {"age": [-11, -9, -7, -5, -3, 0, 3, 5, 7, 10, 14, 16],
+                  "rotation": [-8.0, -5.0, -3.0, 0, 3.0, 5.0, 8.0],
+                  "afro": [0, 0.085, 0.1, 0.12],
+                  "angry": [0, 0.12, 0.15, 0.18],
+                  "bobcut": [0, 0.08, 0.14, 0.20],
+                  "bowlcut": [0, 0.08, 0.14, 0.20],
+                  "purple_hair": [0, 0.07, 0.11, 0.14],
+                  "blond hair ": [-8, -6, -4, 0, 4, 6, 8],
+                  "pap_glasses": [-10, 0, 10, 15, 20],
+                  "pap_smiling": [-10, -7, -3, 0, 3, 7, 10],
+                  "pap_makeup": [-25, -20, -15, 0, 15, 20, 25],
+                  "gender": [-8, -6, -4, 0, 2, 5],
+                  "mohawk": [0, 0.07, 0.10, 0.12],
+                  "goatee": [-6, -4, -2, 0, 2, 4, 6],
+                  "eye_openness": [-30, -25, -20, -15, 0, 15, 20, 25, 30],
+                  }
+
+# editings:
+#   editings_data: {"age": [-7, -5, -3, 0, 3, 5, 7, 10, 14],
+#                   "rotation": [-8.0, -5.0, -3.0, 0, 3.0, 5.0, 8.0],
+#                   "face_roundness": [-17, -12, 0, 12, 17],
+#                   "afro": [0, 0.085, 0.1, 0.12],
+#                   "angry": [0, 0.12, 0.15, 0.18],
+#                   "bobcut": [0, 0.08, 0.14, 0.20],
+#                   "bowlcut": [0, 0.08, 0.14, 0.20],
+#                   "mohawk": [0, 0.07, 0.10, 0.14, 0.18],
+#                   "purple_hair": [0, 0.07, 0.11, 0.14],
+#                   "blond hair ": [-8, -6, -4, 0, 4, 6, 8],
+#                   "pap_glasses": [-10, 0, 10, 15, 20],
+#                   "pap_smiling": [-10, -7, -3, 0, 3, 7, 10],
+#                   "trimmed_beard": [-50, -35, -25, 0, 25, 30, 50],
+#                   "goatee": [-6, -4, -2, 0, 2, 4, 6],
+#                   "sideburns": [-4, -2, -1, 0, 1, 2, 4]
+#                   }
+                  
+  #editings_data: {'black hair': [-5, -3, 0, 3, 5], 'smiling': [-4, -3, -2, 0, 2, 3, 4], 'glasses': [-12, -9, -7, -5, -3, 0, 5], 'gender': [-7, -5, -3, 0, 3, 5, 7]}#, "age": [-7, -5, -3, 0, 3, 5, 7]}
+  # editings_data: {'lipstick': [-7, -5, -3, 0, 3], 'glasses': [-21, -14, -7, 0, 5],
+  #                 "purple_hair": [0, 0.07, 0.12, 0.15], "angry": [0, 0.07, 0.12, 0.18], "afro": [0, 0.03, 0.07, 0.085, 0.1],
+  #                 "age": [-7, -5, -3, 0, 3, 5, 7, 10], "smile": [0, 1.0, 3.0, 5.0], "black hair": [-15, -10, 0, 10, 15], 
+  #                 "gender": [-11, -8, 0, 2, 5], "face_roundness": [-17, -12, 0, 12, 17],
+  #                 "pap_glasses": [0, 5, 10, 15, 20], "pap_smiling": [-10, -7, -3, 0, 3, 7, 10], "pap_makeup": [0, 5, 10, 15],
+  #                 "beyonce": [0, 0.07, 0.12, 0.18], "bobcut": [0, 0.07, 0.12, 0.18], "bowlcut": [0, 0.07, 0.12, 0.18], "mohawk": [0, 0.07, 0.10],
+  #                 "blond hair ": [-8, -4, 0, 4, 8], "rotation": [0, 1.0, 3.0, 5.0]}
+
+
+

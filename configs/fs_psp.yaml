@@ -1,0 +1,67 @@
+exp:
+  config_dir: configs
+  config: base_config.yaml
+  exp_dir: experiments 
+  project: StyleGAN Encoders
+  name: StyleGAN Encoders
+  seed: 42069
+  root: .
+  notes: StyleGAN Encoders
+  logging: true
+  
+  
+inference:
+  inference_runner: fs_inference_runner
+  editing_attrs: {}
+  fid_eiditing_map:  { Smiling  : ['pap_smiling', [-8, -9, -10]], "Eyeglasses" : ['pap_glasses', [34, 35, 36, 37, 38, 39, 40]], "Young": ["age", [6, 7, 8, 9, 10]]}
+
+
+model:
+  inverter: fenc
+  device: '0'
+  batch_size: 8
+
+
+data:
+  transform: hyperinv
+  inference_dir: ../datasets/test_official 
+  input_train_dir: ../datasets/FFHQ
+  input_val_dir: ../datasets/test_official 
+
+
+encoder_losses:
+  lpips: 0.8
+  l2: 1.0
+  id: 0.1
+    
+
+train:
+    coach: fc
+    encoder_optimizer: ranger
+    log_step: 500
+    val_step: 15000
+    checkpoint_step: 15000
+    
+    
+optimizers:
+    ranger:
+      lr: 0.0002
+
+
+editings:
+  editings_data: {"age": [-11, -9, -7, -5, -3, 0, 3, 5, 7, 10, 14, 16],
+                  "rotation": [-8.0, -5.0, -3.0, 0, 3.0, 5.0, 8.0],
+                  "afro": [0, 0.085, 0.1, 0.12],
+                  "angry": [0, 0.12, 0.15, 0.18],
+                  "bobcut": [0, 0.08, 0.14, 0.20],
+                  "bowlcut": [0, 0.08, 0.14, 0.20],
+                  "purple_hair": [0, 0.07, 0.11, 0.14],
+                  "blond hair ": [-8, -6, -4, 0, 4, 6, 8],
+                  "pap_glasses": [-10, 0, 10, 15, 20],
+                  "pap_smiling": [-10, -7, -3, 0, 3, 7, 10],
+                  "pap_makeup": [-25, -20, -15, 0, 15, 20, 25],
+                  "gender": [-8, -6, -4, 0, 2, 5],
+                  "mohawk": [0, 0.07, 0.10, 0.12],
+                  "goatee": [-6, -4, -2, 0, 2, 4, 6],
+                  "eye_openness": [-17, -14, -10, 0, 10, 14, 17]
+                  }
