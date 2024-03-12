@@ -303,6 +303,7 @@ class FSEFull(nn.Module):
         self.encoder = self.set_encoder()
 
         self.decoder = Generator(self.opts.stylegan_size, 512, 8)
+        self.decoder.to(self.device)
         self.decoder.eval()
         self.latent_avg = None
 
